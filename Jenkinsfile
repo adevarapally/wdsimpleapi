@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            any
+            label 'build'
         }
     }
     environment {
@@ -17,7 +17,7 @@ pipeline {
         stage('getcode') {
             steps {
                 deleteDir()
-                git credentialsId: '4c952718-7af6-4703-8b98-1e7d9d413272', url: 'github.com/adevarapally/wdsimpleapi', branch: env.BRANCH_NAME
+                git credentialsId: '4c952718-7af6-4703-8b98-1e7d9d413272', url: 'https://github.com/adevarapally/wdsimpleapi.git', branch: env.BRANCH_NAME
             }
         }
         stage ('DockerImageBuild') {
