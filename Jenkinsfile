@@ -24,8 +24,8 @@ pipeline {
             steps {
                 sh '''#!/bin/sh -l
                 cd $WORKSPACE_MAIN
-                sudo docker pull ubuntu
-                sudo docker build  -f Dockerfile . -t ${BRANCH}/${BUILD_NUMBER}
+                docker pull ubuntu
+                docker build  -f Dockerfile . -t ${BRANCH}/${BUILD_NUMBER}
                 ret=$?
                 if [ $ret -ne 0 ]
                 then 
@@ -40,7 +40,7 @@ pipeline {
                 set -euo pipefail
                 IFS=$'\n\t'
                 echo "Running docker image to test"
-                sudo docker run --rm --cmd="python3 run.py" "${BRANCH}/${BUILD_NUMBER}:latest"
+                docker run --rm --cmd="python3 run.py" "${BRANCH}/${BUILD_NUMBER}:latest"
                 '''
             }
         }
@@ -50,7 +50,7 @@ pipeline {
                 set -euo pipefail
                 IFS=$'\n\t'
                 echo "Pushing to dockerhub"
-                sudo docker push adevarapally/wdsimpleapi:${BRANCH}/${BUILD_NUMBER}
+                docker push adevarapally/wdsimpleapi:${BRANCH}/${BUILD_NUMBER}
                 '''
             }
         }
