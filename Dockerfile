@@ -1,24 +1,25 @@
+#base image
 FROM ubuntu:latest
-# Get Arguments
-ARG APP
-ARG PORT
 
-# Set Environment Variables
-ENV APP ${APP}
-ENV PORT ${PORT}
-
-
+#set label for the application
 LABEL Description="This image will build the application"
 
+# install packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     python3.6 \
-    python3-pip \
-    python3.6-venv \
-    python3.6-dev
-WORKDIR /var/www/{APP}
+    python3-pip 
+
+#set working directory
+WORKDIR /var/www/app
+
+#copy app
 COPY . .
 
+#install packages from requirements file. 
+RUN pip3 install -r requirements.txt
 
+# expose port 
 EXPOSE ${PORT}
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+#run application
+CMD [ "python3", "run.py" ]
